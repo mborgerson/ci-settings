@@ -1,7 +1,23 @@
 trigger: none
 
 stages:
-- stage: Get master commits
+- stage: Get main branch commits
+  jobs:
+  - job: get_commits
+    displayName: Get commits for main branch
+    pool:
+        vmImage: ubuntu-20.04
+    steps:
+    - checkout: none
+    - task: PythonScript@0
+      inputs:
+        scriptSource: filePath
+        scriptPath: scripts/get_commits.py
+    - task: PublishPipelineArtifact@0
+        inputs:
+        artifactName: versions.yaml
+        targetPath: versions.yaml
+
 - stage: Perform nightly tests
 - stage: Create release commits
 - stage: Build distributables
