@@ -1,0 +1,27 @@
+repos:
+- name: archinfo
+  repo: angr/archinfo
+
+- name: cle
+  repo: angr/cle
+
+- name: pyvex
+  repo: angr/pyvex
+
+- name: claripy
+  repo: angr/claripy
+
+- name: ailment
+  repo: angr/ailment
+
+- name: angr
+  repo: angr/angr
+
+- name: angr-doc
+  repo: angr/angr-doc
+
+- name: angr-management
+  repo: angr/angr-management
+
+- name: angrop
+  repo: salls/angrop

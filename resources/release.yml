@@ -1,0 +1,9 @@
+trigger: none
+
+stages:
+- stage: Get master commits
+- stage: Perform nightly tests
+- stage: Create release commits
+- stage: Build distributables
+- stage: Verify distibutables
+- stage: Publish distributables
