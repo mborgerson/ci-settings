@@ -8,7 +8,9 @@ stages:
     pool:
         vmImage: ubuntu-20.04
     steps:
-    - checkout: none
+    - task: CmdLine@2
+      inputs:
+        script: python3 -m pip install -r etc/release_requirements.txt
     - task: PythonScript@0
       inputs:
         scriptSource: filePath
@@ -18,8 +20,21 @@ stages:
         artifactName: versions.yaml
         targetPath: versions.yaml
 
-- stage: Perform nightly tests
+#- stage: Perform nightly tests
+
 - stage: Create release commits
-- stage: Build distributables
+  jobs:
+  - job: make_release_tags
+    displayName: Create release tags
+    steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'filePath'
+        filePath: scripts/make_release_commits.sh
+    - task: PublishPipelineArtifact@0
+        inputs:
+        artifactName: sdist
+        targetPath: sdist
+
 - stage: Verify distibutables
 - stage: Publish distributables
