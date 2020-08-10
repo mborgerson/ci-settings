@@ -15,8 +15,8 @@ stages:
       inputs:
         scriptSource: filePath
         scriptPath: scripts/get_commits.py
-    - task: PublishPipelineArtifact@0
-        inputs:
+    - task: PublishPipelineArtifact@1
+      inputs:
         artifactName: versions.yaml
         targetPath: versions.yaml
 
@@ -27,12 +27,23 @@ stages:
   - job: make_release_tags
     displayName: Create release tags
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: versions.yaml
+        targetPath: versions.yaml
+    - task: CmdLine@2
+      inputs:
+        script: python3 -m pip install -r etc/release_requirements.txt
+    - task: PythonScript@0
+      inputs:
+        scriptSource: filePath
+        scriptPath: scripts/checkout_all.py
     - task: Bash@3
       inputs:
         targetType: 'filePath'
         filePath: scripts/make_release_commits.sh
-    - task: PublishPipelineArtifact@0
-        inputs:
+    - task: PublishPipelineArtifact@1
+      inputs:
         artifactName: sdist
         targetPath: sdist
 
