@@ -1,0 +1,27 @@
+parameters:
+- name: pools
+  type: object
+  default: [ "ubuntu-20.04", "windows-2019", "macos-10.15" ]
+
+jobs:
+- ${{ each pool in parameters.pools }}:
+  - job:
+    displayName: Verify on ${{ pool }}
+    pool:
+      vmImage: ${{ pool }}
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: sdist
+        targetPath: sdist
+    - ${{ if contains(pool, 'windows') }}:
+      - task: BatchScript@1
+        displayName: Call vcvars64.bat
+        inputs:
+          filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+          modifyEnvironment: true
+    - task: Bash@3
+      inputs:
+        targetType: 'filePath'
+        filePath: scripts/verify_distributables.sh
+        arguments: sdist

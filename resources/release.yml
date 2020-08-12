@@ -6,78 +6,24 @@ parameters:
 
 
 stages:
-- stage: Get main branch commits
+- stage:
+  displayName: Get main branch commits
   jobs:
-  - job: get_commits
-    displayName: Get commits for main branch
-    pool:
-      vmImage: ubuntu-20.04
-    steps:
-    - task: CmdLine@2
-      inputs:
-        script: python3 -m pip install -r etc/release_requirements.txt
-    - task: PythonScript@0
-      inputs:
-        scriptSource: filePath
-        scriptPath: scripts/get_commits.py
-    - task: PublishPipelineArtifact@1
-      inputs:
-        artifactName: versions.yaml
-        targetPath: versions.yaml
+  - template: jobs/release/get-commits.yml
 
 #- stage: Perform nightly tests
 
-- stage: Create release commits
+- stage:
+  displayName: Create release commits
   jobs:
-  - job: make_release_tags
-    displayName: Create release tags
-    pool:
-      vmImage: ubuntu-20.04
-    steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        artifactName: versions.yaml
-        targetPath: versions.yaml
-    - task: CmdLine@2
-      inputs:
-        script: python3 -m pip install -r etc/release_requirements.txt
-    - task: PythonScript@0
-      inputs:
-        scriptSource: filePath
-        scriptPath: scripts/checkout_all.py
-    - task: Bash@3
-      inputs:
-        targetType: 'filePath'
-        filePath: scripts/make_release_commits.sh
-      env:
-        DRY_RUN: ${{ parameters.dry_run }}
-    - task: PublishPipelineArtifact@1
-      inputs:
-        artifactName: sdist
-        targetPath: sdist
+  - template: jobs/release/create-release-commits.yml
+    parameters:
+      dry_run: ${{ parameters.dry_run }}
 
-- stage: Verify distibutables
+- stage:
+  displayName: Verify distibutables
   jobs:
-  - ${{ each pool in [ "ubuntu-20.04", "windows-2019", "macos-10.15" ] }}:
-    - job:
-      displayName: Verify on ${{ pool }}
-      pool:
-        vmImage: ${{ pool }}
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifactName: sdist
-          targetPath: sdist
-      - ${{ if contains(pool, 'windows') }}:
-        - task: BatchScript@1
-          displayName: Call vcvars64.bat
-          inputs:
-            filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
-            modifyEnvironment: true
-      - task: Bash@3
-        inputs:
-          targetType: 'filePath'
-          filePath: scripts/verify_distributables.sh
-          arguments: sdist
+  - template: jobs/release/verify.yml
 
 #- stage: Build wheels
 
