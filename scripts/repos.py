@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+import os
 
 import yaml
 
 REPOS_CONFIG = os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), "..", "repos.yaml"
+    os.path.dirname(os.path.realpath(__file__)), "..", "etc", "repos.yaml"
 )
 
 

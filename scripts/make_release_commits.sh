@@ -3,7 +3,7 @@
 VERSION_MAJOR=8
 VERSION=$VERSION_MAJOR$(date +.%y.%m.%d | sed -e "s/\.0*/./g")
 
-REPOS=$@
+REPOS=${REPOS-archinfo vex pyvex cle claripy angr angr-management angrop angr-doc ailment}
 
 for i in $REPOS; do
     if [ ! -e $i/setup.py ]; then
@@ -36,8 +36,10 @@ for i in $REPOS; do
     git checkout -b release/$VERSION
     git -c $i commit -m "Update version to $VERSION"
     git tag -a v$VERSION -m "release version $VERSION"
-    git push origin release/$VERSION
-    git push origin v$VERSION
+    if ! $DRY_RUN; then
+        git push origin release/$VERSION
+        git push origin v$VERSION
+    fi
 done
 
 # Create source distributions

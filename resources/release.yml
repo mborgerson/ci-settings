@@ -1,4 +1,9 @@
 trigger: none
+parameters:
+- name: dry_run
+  type: boolean
+  default: true
+
 
 stages:
 - stage: Get main branch commits
@@ -6,7 +11,7 @@ stages:
   - job: get_commits
     displayName: Get commits for main branch
     pool:
-        vmImage: ubuntu-20.04
+      vmImage: ubuntu-20.04
     steps:
     - task: CmdLine@2
       inputs:
@@ -26,6 +31,8 @@ stages:
   jobs:
   - job: make_release_tags
     displayName: Create release tags
+    pool:
+      vmImage: ubuntu-20.04
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
@@ -42,10 +49,36 @@ stages:
       inputs:
         targetType: 'filePath'
         filePath: scripts/make_release_commits.sh
+      env:
+        DRY_RUN: ${{ parameters.dry_run }}
     - task: PublishPipelineArtifact@1
       inputs:
         artifactName: sdist
         targetPath: sdist
 
 - stage: Verify distibutables
-- stage: Publish distributables
+  jobs:
+  - ${{ each pool in [ "ubuntu-20.04", "windows-2019", "macos-10.15" ] }}:
+    - job:
+      displayName: Verify on ${{ pool }}
+      pool:
+        vmImage: ${{ pool }}
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifactName: sdist
+          targetPath: sdist
+      - ${{ if contains(pool, 'windows') }}:
+        - task: BatchScript@1
+          displayName: Call vcvars64.bat
+          inputs:
+            filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+            modifyEnvironment: true
+      - task: Bash@3
+        inputs:
+          targetType: 'filePath'
+          filePath: scripts/verify_distributables.sh
+          arguments: sdist
+
+#- stage: Build wheels
+
+#- stage: Publish distributables
