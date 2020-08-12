@@ -4,7 +4,7 @@ import os
 import yaml
 
 REPOS_CONFIG = os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), "..", "etc", "repos.yaml"
+    os.path.dirname(os.path.realpath(__file__)), "..", "etc", "repos.yml"
 )
 
 

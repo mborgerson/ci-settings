@@ -9,19 +9,12 @@ jobs:
   pool:
     vmImage: ubuntu-20.04
   steps:
+  - template: setup-host.yml
   - task: DownloadPipelineArtifact@2
     displayName: Download versions.yaml
     inputs:
       artifactName: versions.yaml
       targetPath: .
-  - task: UsePythonVersion@0
-    displayName: Use python 3.8
-    inputs:
-      versionSpec: 3.8
-  - task: CmdLine@2
-    displayName: Install requirements
-    inputs:
-      script: pip install -r etc/release_requirements.txt
   - task: PythonScript@0
     displayName: Checkout release commits
     inputs:

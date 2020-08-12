@@ -10,6 +10,7 @@ jobs:
     pool:
       vmImage: ${{ pool }}
     steps:
+    - template: setup-host.yml
     - task: DownloadPipelineArtifact@2
       displayName: Download sdist packages
       inputs:
@@ -21,10 +22,6 @@ jobs:
         inputs:
           filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
           modifyEnvironment: true
-    - task: UsePythonVersion@0
-      displayName: Use python 3.8
-      inputs:
-        versionSpec: 3.8
     - task: Bash@3
       displayName: Create venv
       inputs:
