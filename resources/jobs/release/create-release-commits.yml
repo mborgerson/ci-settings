@@ -26,7 +26,7 @@ jobs:
       targetType: 'filePath'
       filePath: scripts/make_release_commits.sh
     env:
-      DRY_RUN: ${{ parameters.dry_run }}
+      DRY_RUN: ${{ lower(parameters.dry_run) }}
   - task: PublishPipelineArtifact@1
     displayName: Publish sdist pacakges
     inputs:

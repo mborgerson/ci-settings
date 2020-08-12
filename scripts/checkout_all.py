@@ -9,7 +9,7 @@ from repos import parse_repos, REPOS_CONFIG
 
 def checkout_repo(dir, repo, commit):
     checkout_dir = os.path.join(dir, repo.name)
-    if os.environ.get("DRY_RUN", True):
+    if os.environ.get("DRY_RUN", "true") == "true":
         clone_str = f"git clone https://github.com/{repo.repo}.git {checkout_dir}"
     else:
         clone_str = f"git clone git@github.com:{repo.repo}.git {checkout_dir}"
