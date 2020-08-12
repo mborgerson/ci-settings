@@ -47,6 +47,7 @@ for i in $REPOS; do
     pushd $CHECKOUT_DIR/$i
 
     git checkout -b release/$VERSION
+    git add --all
     git commit -m "Update version to $VERSION"
     git tag -a v$VERSION -m "release version $VERSION"
     if ! $DRY_RUN; then
