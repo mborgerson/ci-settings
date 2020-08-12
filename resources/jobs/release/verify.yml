@@ -11,6 +11,7 @@ jobs:
       vmImage: ${{ pool }}
     steps:
     - task: DownloadPipelineArtifact@2
+      displayName: Download sdist packages
       inputs:
         artifactName: sdist
         targetPath: sdist
@@ -20,8 +21,26 @@ jobs:
         inputs:
           filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
           modifyEnvironment: true
-    - task: Bash@3
+    - task: UsePythonVersion@0
+      displayName: Use python 3.8
       inputs:
-        targetType: 'filePath'
-        filePath: scripts/verify_distributables.sh
-        arguments: sdist
+        versionSpec: 3.8
+    - task: Bash@3
+      displayName: Create venv
+      inputs:
+        targetType: inline
+        script: python -m venv angr_venv
+    - task: Bash@3
+      displayName: Install packages
+      inputs:
+        targetType: inline
+        script: |
+          source angr_venv/bin/activate || source angr_venv/Scripts/activate
+          pip install sdist/*
+    - task: Bash@3
+      displayName: Test angr import
+      inputs:
+        targetType: inline
+        script: |
+          source angr_venv/bin/activate || source angr_venv/Scripts/activate
+          python -c "import angr; print('angr imports!')"

@@ -5,17 +5,20 @@ jobs:
     vmImage: ubuntu-20.04
   steps:
   - task: UsePythonVersion@0
+    displayName: Use python 3.8
     inputs:
       versionSpec: 3.8
-      displayName: Use python 3.8
   - task: CmdLine@2
+    displayName: Install requirements
     inputs:
       script: pip install -r etc/release_requirements.txt
   - task: PythonScript@0
+    displayName: Get latest commits
     inputs:
       scriptSource: filePath
       scriptPath: scripts/get_commits.py
   - task: PublishPipelineArtifact@1
+    displayName: Publish versions.yaml
     inputs:
       artifactName: versions.yaml
       targetPath: versions.yaml

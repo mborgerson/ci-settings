@@ -10,14 +10,16 @@ jobs:
     vmImage: ubuntu-20.04
   steps:
   - task: DownloadPipelineArtifact@2
+    displayName: Download versions.yaml
     inputs:
       artifactName: versions.yaml
       targetPath: .
   - task: UsePythonVersion@0
+    displayName: Use python 3.8
     inputs:
       versionSpec: 3.8
-      displayName: Use python 3.8
   - task: CmdLine@2
+    displayName: Install requirements
     inputs:
       script: pip install -r etc/release_requirements.txt
   - task: PythonScript@0
@@ -26,12 +28,14 @@ jobs:
       scriptSource: filePath
       scriptPath: scripts/checkout_all.py
   - task: Bash@3
+    displayName: Make release commits
     inputs:
       targetType: 'filePath'
       filePath: scripts/make_release_commits.sh
     env:
       DRY_RUN: ${{ parameters.dry_run }}
   - task: PublishPipelineArtifact@1
+    displayName: Publish sdist pacakges
     inputs:
       artifactName: sdist
       targetPath: sdist
