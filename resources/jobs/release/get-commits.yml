@@ -4,9 +4,13 @@ jobs:
   pool:
     vmImage: ubuntu-20.04
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: 3.8
+      displayName: Use python 3.8
   - task: CmdLine@2
     inputs:
-      script: python3 -m pip install -r etc/release_requirements.txt
+      script: pip install -r etc/release_requirements.txt
   - task: PythonScript@0
     inputs:
       scriptSource: filePath
