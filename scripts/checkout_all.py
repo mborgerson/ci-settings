@@ -1,4 +1,5 @@
 import os
+import shlex
 import subprocess
 
 import yaml
@@ -12,9 +13,9 @@ def checkout_repo(dir, repo, commit):
         clone_str = f"git clone https://github.com/{repo.repo}.git {checkout_dir}"
     else:
         clone_str = f"git clone git@github.com:{repo.repo}.git {checkout_dir}"
-    subprocess.run(clone_str.split(), check=True).check_returncode()
+    subprocess.run(shlex.split(clone_str), check=True).check_returncode()
     subprocess.run(
-        f"git -C {checkout_dir} checkout {commit}", check=True
+        shlex.split(f"git -C {checkout_dir} checkout {commit}"), check=True
     ).check_returncode()
 
 
