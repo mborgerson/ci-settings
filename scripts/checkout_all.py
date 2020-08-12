@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 import yaml
@@ -6,7 +7,11 @@ from repos import parse_repos, REPOS_CONFIG
 
 
 def checkout_repo(repo, commit):
-    subprocess.run(f"git clone git@github.com:{repo.repo}.git {repo.name}".split())
+    if os.environ.get("DRY_RUN", True):
+        clone_str = f"git clone https://github.com/{repo.repo}.git {repo.name}"
+    else:
+        clone_str = f"git clone git@github.com:{repo.repo}.git {repo.name}"
+    subprocess.run(clone_str.split())
     subprocess.run(f"git -C {repo.name} checkout {commit}")
 
 
