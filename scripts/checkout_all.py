@@ -20,7 +20,7 @@ def main():
     commits = parse_commits("versions.yaml")
 
     for repo in repos:
-        checkout_repo(repo, commit[repo.name])
+        checkout_repo(repo, commits[repo.name])
 
 
 if __name__ == "__main__":
