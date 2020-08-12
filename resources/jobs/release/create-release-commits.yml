@@ -12,7 +12,7 @@ jobs:
   - task: DownloadPipelineArtifact@2
     inputs:
       artifactName: versions.yaml
-      targetPath: versions.yaml
+      targetPath: .
   - task: UsePythonVersion@0
     inputs:
       versionSpec: 3.8
