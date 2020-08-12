@@ -11,8 +11,8 @@ def checkout_repo(repo, commit):
         clone_str = f"git clone https://github.com/{repo.repo}.git {repo.name}"
     else:
         clone_str = f"git clone git@github.com:{repo.repo}.git {repo.name}"
-    subprocess.run(clone_str.split())
-    subprocess.run(f"git -C {repo.name} checkout {commit}")
+    subprocess.run(clone_str.split(), check=True)
+    subprocess.run(f"git -C {repo.name} checkout {commit}", check=True)
 
 
 def parse_commits(path):
