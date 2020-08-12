@@ -2,6 +2,7 @@
 
 VERSION_MAJOR=8
 VERSION=$VERSION_MAJOR$(date +.%y.%m.%d | sed -e "s/\.0*/./g")
+VERSION_TUPLE=$(awk -F '.' '{ printf "(%d, %d, %d, %d)\n", $1, $2, $3, $4}' <<< $VERSION)
 
 REPOS=${REPOS-archinfo vex pyvex cle claripy angr angr-management angrop angr-doc ailment}
 
@@ -11,13 +12,14 @@ for i in $REPOS; do
     pushd $CHECKOUT_DIR/$i
 
     if [ ! -e setup.py ]; then
+        popd
         continue
     fi
 
     # Replace version in setup.py
     sed -i -e "s/version=['\"][^'\"]*['\"]/version='$VERSION'/g" setup.py
     # Replace version in __init__.py
-    sed -i -e "s/^__version__ = .*/__version__ = $(version_to_tuple $VERSION)/g" ./*/__init__.py
+    sed -i -e "s/^__version__ = .*/__version__ = $VERSION_TUPLE/g" ./*/__init__.py
 
     for j in $REPOS; do
         if [ "$i" == "$j" ]; then
@@ -41,7 +43,7 @@ git config --global user.email "angr@lists.cs.ucsb.edu"
 for i in $REPOS; do
     pushd $CHECKOUT_DIR/$i
 
-    git checkout-b release/$VERSION
+    git checkout -b release/$VERSION
     git commit -m "Update version to $VERSION"
     git tag -a v$VERSION -m "release version $VERSION"
     if ! $DRY_RUN; then
