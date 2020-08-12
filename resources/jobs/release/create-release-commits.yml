@@ -21,6 +21,7 @@ jobs:
     inputs:
       script: pip install -r etc/release_requirements.txt
   - task: PythonScript@0
+    displayName: Checkout release commits
     inputs:
       scriptSource: filePath
       scriptPath: scripts/checkout_all.py

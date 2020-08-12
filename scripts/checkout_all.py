@@ -12,7 +12,7 @@ def checkout_repo(repo, commit):
 
 def parse_commits(path):
     with open(path, "r") as f:
-        return yaml.load(f.read(), loader=yaml.Loader)
+        return yaml.load(f.read(), Loader=yaml.Loader)
 
 
 def main():
