@@ -33,6 +33,7 @@ jobs:
         targetType: inline
         script: |
           source angr_venv/bin/activate || source angr_venv/Scripts/activate
+          pip install wheel
           pip install sdist/*
     - task: Bash@3
       displayName: Test angr import
