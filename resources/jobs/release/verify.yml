@@ -32,7 +32,7 @@ jobs:
       inputs:
         targetType: inline
         script: |
-          packages=$(python scripts/get_repo_names.py --python-only | sed "s/\>/\*/g; s/\</sdist\//g")
+          packages=$(python scripts/get_repo_names.py --python-only | sed -E "s/([[:alnum:]-]+)/sdist\/\1*/g")
           source angr_venv/bin/activate || source angr_venv/Scripts/activate
           pip install wheel
           pip install $packages
