@@ -32,9 +32,10 @@ jobs:
       inputs:
         targetType: inline
         script: |
+          packages=$(python scripts/get_repo_names.py | sed "s/\>/\*/g; s/\</sdist\//g")
           source angr_venv/bin/activate || source angr_venv/Scripts/activate
           pip install wheel
-          pip install sdist/*
+          pip install $packages
     - task: Bash@3
       displayName: Test angr import
       inputs:
