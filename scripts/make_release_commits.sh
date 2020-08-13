@@ -1,11 +1,6 @@
 #!/bin/bash
 set -ex
-
-VERSION_MAJOR=8
-VERSION=$VERSION_MAJOR$(date +.%y.%m.%d | sed -e "s/\.0*/./g")
-VERSION_TUPLE=$(awk -F '.' '{ printf "(%d, %d, %d, %d)\n", $1, $2, $3, $4}' <<< $VERSION)
-REPOS=$(python scripts/get_repo_names.py)
-CHECKOUT_DIR=repos
+source $(dirname $0)/vars.sh
 
 git config --global user.name "angr release bot"
 git config --global user.email "angr@lists.cs.ucsb.edu"
@@ -42,21 +37,4 @@ for i in $REPOS; do
     git commit -m "Update version to $VERSION"
     git tag -a v$VERSION -m "release version $VERSION"
     popd
-done
-
-# Push to github
-if ! $DRY_RUN; then
-    for i in $REPOS; do
-        git -C $CHECKOUT_DIR/$i push origin release/$VERSION
-        git -C $CHECKOUT_DIR/$i push origin v$VERSION
-    done
-fi
-
-# Create source distributions
-for i in $REPOS; do
-    if [ -e $CHECKOUT_DIR/$i/setup.py ]; then
-        pushd $CHECKOUT_DIR/$i
-        python setup.py sdist -d ../../sdist
-        popd
-    fi
 done

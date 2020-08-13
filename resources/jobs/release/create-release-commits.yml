@@ -20,13 +20,24 @@ jobs:
     inputs:
       scriptSource: filePath
       scriptPath: scripts/checkout_all.py
+    env:
+      DRY_RUN: ${{ lower(parameters.dry_run) }}
   - task: Bash@3
     displayName: Make release commits
     inputs:
       targetType: 'filePath'
       filePath: scripts/make_release_commits.sh
-    env:
-      DRY_RUN: ${{ lower(parameters.dry_run) }}
+  - task: Bash@3
+    displayName: Push commits to github
+    condition: eq(${{ parameters.dry_run }}, false)
+    inputs:
+      targetType: 'filePath'
+      filePath: scripts/push_commits.sh
+  - task: Bash@3
+    displayName: Create sdists
+    inputs:
+      targetType: 'filePath'
+      filePath: scripts/create_sdist.sh
   - task: PublishPipelineArtifact@1
     displayName: Publish sdist pacakges
     inputs:
