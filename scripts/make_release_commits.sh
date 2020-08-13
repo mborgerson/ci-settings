@@ -55,6 +55,8 @@ fi
 # Create source distributions
 for i in $REPOS; do
     if [ -e $CHECKOUT_DIR/$i/setup.py ]; then
-        python $CHECKOUT_DIR/$i/setup.py sdist -d sdist
+        pushd $CHECKOUT_DIR/$i
+        python setup.py sdist -d ../../sdist
+        popd
     fi
 done
