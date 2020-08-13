@@ -37,7 +37,7 @@ for i in $REPOS; do
     fi
 
     # Commit and push to github
-    git checkout -b release/$VERSION
+    git checkout -q -b release/$VERSION
     git add --all
     git commit -m "Update version to $VERSION"
     git tag -a v$VERSION -m "release version $VERSION"
