@@ -12,6 +12,7 @@ REPOS_CONFIG = os.path.join(
 class Repo:
     name: str
     repo: str
+    python: bool = True
 
 
 def parse_repos(path):

@@ -4,6 +4,7 @@ repos:
 
 - name: vex
   repo: angr/vex
+  python: False
 
 - name: pyvex
   repo: angr/pyvex
@@ -22,6 +23,7 @@ repos:
 
 - name: angr-doc
   repo: angr/angr-doc
+  python: False
 
 - name: angr-management
   repo: angr/angr-management
