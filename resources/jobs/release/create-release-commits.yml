@@ -11,9 +11,9 @@ jobs:
   steps:
   - template: setup-host.yml
   - task: DownloadPipelineArtifact@2
-    displayName: Download versions.yaml
+    displayName: Download versions.yml
     inputs:
-      artifactName: versions.yaml
+      artifactName: versions.yml
       targetPath: .
   - task: PythonScript@0
     displayName: Checkout release commits

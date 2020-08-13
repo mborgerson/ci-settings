@@ -11,7 +11,7 @@ jobs:
       scriptSource: filePath
       scriptPath: scripts/get_commits.py
   - task: PublishPipelineArtifact@1
-    displayName: Publish versions.yaml
+    displayName: Publish versions.yml
     inputs:
-      artifactName: versions.yaml
-      targetPath: versions.yaml
+      artifactName: versions.yml
+      targetPath: versions.yml

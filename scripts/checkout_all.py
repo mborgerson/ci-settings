@@ -15,7 +15,7 @@ def checkout_repo(dir, repo, commit):
         clone_str = f"git clone git@github.com:{repo.repo}.git {checkout_dir}"
     subprocess.run(shlex.split(clone_str), check=True).check_returncode()
     subprocess.run(
-        shlex.split(f"git -C {checkout_dir} checkout {commit}"), check=True
+        shlex.split(f"git -C {checkout_dir} checkout -q {commit}"), check=True
     ).check_returncode()
 
 
@@ -26,7 +26,7 @@ def parse_commits(path):
 
 def main():
     repos = parse_repos(REPOS_CONFIG)
-    commits = parse_commits("versions.yaml")
+    commits = parse_commits("versions.yml")
 
     os.mkdir("repos")
 

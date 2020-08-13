@@ -23,7 +23,7 @@ def main():
     repos = parse_repos(REPOS_CONFIG)
     version_dict = {r.name: get_latest_commit(gh, r) for r in repos}
 
-    with open("versions.yaml", "w") as f:
+    with open("versions.yml", "w") as f:
         f.write(yaml.dump(version_dict, Dumper=yaml.Dumper))
 
 
