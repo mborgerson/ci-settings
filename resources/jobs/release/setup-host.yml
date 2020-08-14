@@ -1,8 +1,8 @@
 steps:
 - task: UsePythonVersion@0
-  displayName: Use python 3.8
+  displayName: Use python 3.6
   inputs:
-    versionSpec: 3.8
+    versionSpec: 3.6
 - task: CmdLine@2
   displayName: Install requirements
   inputs:
