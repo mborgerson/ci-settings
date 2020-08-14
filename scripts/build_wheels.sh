@@ -12,8 +12,8 @@ mkdir -p $WHEELS wheels_build
 pushd wheels_build
 
 for package in ${PACKAGES[@]}; do
-    tar -xf $SDIST_LOC/$package*
-    pushd $package*
+    tar -xf $SDIST_LOC/$package-8*
+    pushd $package-8*
     python setup.py bdist_wheel
     mv dist/* $WHEELS
     popd
