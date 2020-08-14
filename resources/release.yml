@@ -25,6 +25,9 @@ stages:
   jobs:
   - template: jobs/release/verify.yml
 
-#- stage: Build wheels
+- stage:
+  displayName: Build wheels
+  jobs:
+  - template: jobs/release/build-wheels.yml
 
 #- stage: Publish distributables
