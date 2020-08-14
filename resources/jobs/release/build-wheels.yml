@@ -36,5 +36,5 @@ jobs:
     - task: PublishPipelineArtifact@1
       displayName: Publish wheel artifact
       inputs:
-        artifactName: wheels-windows
-        targetPath: sdist
+        artifactName: wheels-${{ pool }}
+        targetPath: wheels
