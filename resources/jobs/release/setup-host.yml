@@ -1,9 +1,10 @@
 steps:
 - task: BatchScript@1
-  displayName: Call vcvarsall.bat
+  displayName: Call vcvars64.bat
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
   inputs:
-    filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat
+    filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+    failOnStandardError: true
     modifyEnvironment: true
 - task: UsePythonVersion@0
   displayName: Use python 3.6
