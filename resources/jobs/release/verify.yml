@@ -23,19 +23,11 @@ jobs:
           filename: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
           modifyEnvironment: true
     - task: Bash@3
-      displayName: Create venv
+      displayName: Prepare venv from sdist
       inputs:
-        targetType: inline
-        script: python -m venv angr_venv
-    - task: Bash@3
-      displayName: Install packages
-      inputs:
-        targetType: inline
-        script: |
-          packages=$(python scripts/get_repo_names.py --python-only | sed -E "s/([[:alnum:]-]+)/sdist\/\1*/g")
-          source angr_venv/bin/activate || source angr_venv/Scripts/activate
-          pip install wheel
-          pip install $packages
+        targetType: filePath
+        filePath: scripts/prepare_venv_from_sdist.sh
+        arguments: python sdist angr_venv
     - task: Bash@3
       displayName: Test angr import
       inputs:
