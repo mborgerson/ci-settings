@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import os
 
 import yaml
@@ -8,11 +7,14 @@ REPOS_CONFIG = os.path.join(
 )
 
 
-@dataclass
 class Repo:
     name: str
     repo: str
     python: bool = True
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
 
 def parse_repos(path):
