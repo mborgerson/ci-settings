@@ -27,6 +27,7 @@ jobs:
       inputs:
         targetType: filePath
         filenPath: scripts/build_wheels.sh
+        arguments: python sdist angr_venv
     - task: PublishPipelineArtifact@1
       displayName: Publish wheel artifact
       inputs:
