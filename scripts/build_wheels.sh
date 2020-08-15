@@ -1,5 +1,10 @@
 set -ex
 
+# Apple doesn't incluide realpath
+function realpath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
 PYTHON=$1
 SDIST_LOC=$(realpath $2)
 VENV_PATH=$(realpath $3)
