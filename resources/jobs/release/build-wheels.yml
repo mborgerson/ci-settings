@@ -1,7 +1,7 @@
 parameters:
 - name: pools
   type: object
-  default: [ "windows-2019", "macos-10.15" ]
+  default: [ "ubuntu-20.04", "windows-2019", "macos-10.15" ]
 
 jobs:
 - ${{ each pool in parameters.pools }}:
@@ -9,8 +9,14 @@ jobs:
     displayName: Build wheels on ${{ pool }}
     pool:
       vmImage: ${{ pool }}
+    ${{ if in(pool, 'ubuntu') }}:
+      container:
+        image: quay.io/pypa/manylinux1_x86_64
     steps:
     - template: setup-host.yml
+      ${{ if in(pool, 'ubuntu') }}:
+        parameters:
+          python: /opt/python/cp36-cp36m/bin/python
     - task: DownloadPipelineArtifact@2
       displayName: Download sdist packages
       inputs:
@@ -21,13 +27,13 @@ jobs:
       inputs:
         targetType: filePath
         filePath: scripts/prepare_venv_from_sdist.sh
-        arguments: python sdist angr_venv
+        arguments: $(python) sdist angr_venv
     - task: Bash@3
       displayName: Build wheels
       inputs:
         targetType: filePath
         filePath: scripts/build_wheels.sh
-        arguments: python sdist angr_venv
+        arguments: $(python) sdist angr_venv
     - task: PublishPipelineArtifact@1
       displayName: Publish wheel artifact
       inputs:
