@@ -17,23 +17,12 @@ jobs:
       ${{ if in(pool, 'ubuntu') }}:
         parameters:
           python: /opt/python/cp36-cp36m/bin/python
-    - task: DownloadPipelineArtifact@2
-      displayName: Download sdist packages
-      inputs:
-        artifactName: sdist
-        targetPath: sdist
-    - task: Bash@3
-      displayName: Prepare venv
-      inputs:
-        targetType: filePath
-        filePath: scripts/prepare_venv_from_sdist.sh
-        arguments: $(python) sdist angr_venv
-    - task: Bash@3
+
+    - template: prepare_venv_from_sdist.yml
+
+    - bash: scripts/build_wheels.sh $(python) sdist angr_venv
       displayName: Build wheels
-      inputs:
-        targetType: filePath
-        filePath: scripts/build_wheels.sh
-        arguments: $(python) sdist angr_venv
+
     - task: PublishPipelineArtifact@1
       displayName: Publish wheel artifact
       inputs:

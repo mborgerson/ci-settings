@@ -11,21 +11,10 @@ jobs:
       vmImage: ${{ pool }}
     steps:
     - template: setup-host.yml
-    - task: DownloadPipelineArtifact@2
-      displayName: Download sdist packages
-      inputs:
-        artifactName: sdist
-        targetPath: sdist
-    - task: Bash@3
-      displayName: Prepare venv from sdist
-      inputs:
-        targetType: filePath
-        filePath: scripts/prepare_venv_from_sdist.sh
-        arguments: python sdist angr_venv
-    - task: Bash@3
+
+    - template: prepare_venv_from_sdist.yml
+
+    - bash: |
+        source angr_venv/bin/activate &> /dev/null || source angr_venv/Scripts/activate
+        python -c "import angr; print('angr imports!')"
       displayName: Test angr import
-      inputs:
-        targetType: inline
-        script: |
-          source angr_venv/bin/activate &> /dev/null || source angr_venv/Scripts/activate
-          python -c "import angr; print('angr imports!')"

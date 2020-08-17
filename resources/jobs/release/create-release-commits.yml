@@ -10,11 +10,13 @@ jobs:
     vmImage: ubuntu-20.04
   steps:
   - template: setup-host.yml
+
   - task: DownloadPipelineArtifact@2
     displayName: Download versions.yml
     inputs:
       artifactName: versions.yml
       targetPath: .
+
   - task: PythonScript@0
     displayName: Checkout release commits
     inputs:
@@ -22,22 +24,17 @@ jobs:
       scriptPath: scripts/checkout_all.py
     env:
       DRY_RUN: ${{ lower(parameters.dry_run) }}
-  - task: Bash@3
+
+  - bash: scripts/make_release_commits.sh
     displayName: Make release commits
-    inputs:
-      targetType: 'filePath'
-      filePath: scripts/make_release_commits.sh
-  - task: Bash@3
+
+  - bash: scripts/push_commits.sh
     displayName: Push commits to github
     condition: eq(${{ parameters.dry_run }}, false)
-    inputs:
-      targetType: 'filePath'
-      filePath: scripts/push_commits.sh
-  - task: Bash@3
+
+  - bash: scripts/create_sdist.sh
     displayName: Create sdists
-    inputs:
-      targetType: 'filePath'
-      filePath: scripts/create_sdist.sh
+
   - task: PublishPipelineArtifact@1
     displayName: Publish sdist pacakges
     inputs:
