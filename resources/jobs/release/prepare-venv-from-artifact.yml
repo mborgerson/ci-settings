@@ -8,7 +8,7 @@ steps:
     displayName: Download artifact ${{ parameters.artifact }}
     inputs:
       artifactName: ${{ parameters.artifact }}
-      targetPath: .
+      targetPath: ${{ parameters.artifact }}
 
   - bash: scripts/prepare_venv_from_artifact.sh $(python) ${{ parameters.artifact }} angr_venv
     displayName: Prepare venv
