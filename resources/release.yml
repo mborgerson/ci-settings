@@ -21,14 +21,14 @@ stages:
       dry_run: ${{ parameters.dry_run }}
 
 - stage:
-  displayName: Verify distibutables
-  jobs:
-  - template: jobs/release/verify.yml
-
-- stage:
   displayName: Build wheels
   jobs:
   - template: jobs/release/build-wheels.yml
+
+- stage:
+  displayName: Verify distibutables
+  jobs:
+  - template: jobs/release/verify.yml
 
 - stage:
   displayName: Upload packages to PyPI
