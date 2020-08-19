@@ -12,7 +12,9 @@ jobs:
     steps:
     - template: setup-host.yml
 
-    - template: prepare_venv_from_sdist.yml
+    - template: prepare-venv-from-artifact.yml
+      parameters:
+        artifact: wheels-${{ pool }}
 
     - bash: |
         source angr_venv/bin/activate &> /dev/null || source angr_venv/Scripts/activate

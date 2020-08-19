@@ -1,9 +1,0 @@
-steps:
-  - task: DownloadPipelineArtifact@2
-    displayName: Download sdist packages
-    inputs:
-      artifactName: sdist
-      targetPath: sdist
-
-  - bash: scripts/prepare_venv_from_sdist.sh $(python) sdist angr_venv
-    displayName: Prepare venv

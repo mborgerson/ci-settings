@@ -30,4 +30,9 @@ stages:
   jobs:
   - template: jobs/release/build-wheels.yml
 
-#- stage: Publish distributables
+- stage:
+  displayName: Upload packages to PyPI
+  jobs:
+  - template: jobs/release/upload-to-pypi.yml
+    parameters:
+      dry_run: ${{ parameters.dry_run }}
