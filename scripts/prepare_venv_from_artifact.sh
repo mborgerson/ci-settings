@@ -1,5 +1,5 @@
-source vars.sh
 set -ex
+source $(dirname $0)/vars.sh
 
 python=$1
 sdist_path=$2
