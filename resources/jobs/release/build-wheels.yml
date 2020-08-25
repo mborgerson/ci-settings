@@ -9,17 +9,17 @@ jobs:
     displayName: Build wheels on ${{ pool }}
     pool:
       vmImage: ${{ pool }}
-    ${{ if in(pool, 'ubuntu') }}:
+    ${{ if contains(pool, 'ubuntu') }}:
       container:
         image: quay.io/pypa/manylinux1_x86_64
     steps:
     - template: setup-host.yml
-      ${{ if in(pool, 'ubuntu') }}:
+      ${{ if contains(pool, 'ubuntu') }}:
         parameters:
           python: /opt/python/cp36-cp36m/bin/python
 
-    - ${{ if in(pool, 'macOS') }}:
-      - script: brew install bash
+    - ${{ if contains(pool, 'macos') }}:
+      - script: brew install gnu-sed
 
     - template: prepare-venv-from-artifact.yml
       parameters:
