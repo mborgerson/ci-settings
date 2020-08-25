@@ -16,8 +16,9 @@ wheels=$(realpath wheels)
 mkdir -p $wheels wheels_build
 pushd wheels_build
 
+tar -xf $sdist_path/*
+
 for package in $packages; do
-    tar -xf $sdist_path/$package-$VERSION*
     pushd $package-$VERSION*
     python setup.py bdist_wheel
     mv dist/* $wheels
