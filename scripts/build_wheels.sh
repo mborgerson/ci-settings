@@ -16,7 +16,9 @@ wheels=$(realpath wheels)
 mkdir -p $wheels wheels_build
 pushd wheels_build
 
-tar -xf $sdist_path/*
+for f in $(ls $sdist_path); do
+    tar -xf $f
+done
 
 for package in $packages; do
     pushd $package-$VERSION*
