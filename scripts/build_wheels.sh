@@ -17,7 +17,7 @@ mkdir -p $wheels wheels_build
 pushd wheels_build
 
 for f in $(ls $sdist_path); do
-    tar -xf $f
+    tar -xf $sdist_path/$f
 done
 
 for package in $packages; do
