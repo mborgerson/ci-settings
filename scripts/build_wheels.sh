@@ -21,7 +21,7 @@ for f in $(ls $sdist_path); do
 done
 
 for package in $packages; do
-    pushd $package-$VERSION*
+    pushd $package-$VERSION.tar.gz
     python setup.py bdist_wheel
     mv dist/* $wheels
     popd
