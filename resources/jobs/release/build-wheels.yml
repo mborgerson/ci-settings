@@ -11,7 +11,7 @@ jobs:
       vmImage: ${{ pool }}
     ${{ if contains(pool, 'ubuntu') }}:
       container:
-        image: quay.io/pypa/manylinux1_x86_64
+        image: quay.io/pypa/manylinux2010_x86_64
     steps:
     - template: setup-host.yml
       ${{ if contains(pool, 'ubuntu') }}:
