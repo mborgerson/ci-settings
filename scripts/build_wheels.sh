@@ -1,5 +1,4 @@
 set -ex
-source $(dirname $0)/vars.sh
 
 # Apple doesn't incluide realpath
 function realpath() {
@@ -9,6 +8,8 @@ function realpath() {
 python=$1
 sdist_path=$(realpath $2)
 venv_path=$(realpath $3)
+
+source $(dirname $0)/vars.sh
 
 packages=$($python scripts/get_repo_names.py --python-only)
 source $venv_path/bin/activate &> /dev/null || source $venv_path/Scripts/activate

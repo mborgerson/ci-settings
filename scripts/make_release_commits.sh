@@ -1,5 +1,7 @@
 #!/bin/bash
 set -ex
+
+python=python
 source $(dirname $0)/vars.sh
 
 git config --global user.name "angr release bot"
