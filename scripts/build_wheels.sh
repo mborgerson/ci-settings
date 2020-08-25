@@ -1,4 +1,5 @@
 set -ex
+source $(dirname $0)/vars.sh
 
 # Apple doesn't incluide realpath
 function realpath() {
