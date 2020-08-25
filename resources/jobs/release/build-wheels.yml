@@ -18,6 +18,9 @@ jobs:
         parameters:
           python: /opt/python/cp36-cp36m/bin/python
 
+    - ${{ if in(pool, 'macos') }}:
+      - script: brew install bash
+
     - template: prepare-venv-from-artifact.yml
       parameters:
         artifact: sdist
