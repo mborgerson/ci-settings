@@ -11,6 +11,7 @@ class Repo:
     name: str
     repo: str
     python: bool = True
+    website: bool = False
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():

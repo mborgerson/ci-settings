@@ -28,6 +28,9 @@ jobs:
   - bash: scripts/make_release_commits.sh
     displayName: Make release commits
 
+  - bash: scripts/build_api_docs.sh
+    displayName: Build API docs
+
   - bash: scripts/push_commits.sh
     displayName: Push commits to github
     condition: eq(${{ parameters.dry_run }}, false)
@@ -40,3 +43,9 @@ jobs:
     inputs:
       artifactName: sdist
       targetPath: sdist
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish API docs artifact
+    inputs:
+      artifactName: apidocs
+      targetPath: repos/angr.github.io/api-doc

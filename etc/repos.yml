@@ -1,32 +1,26 @@
 repos:
 - name: archinfo
-  repo: angr/archinfo
 
 - name: vex
-  repo: angr/vex
   python: False
 
 - name: pyvex
-  repo: angr/pyvex
 
 - name: cle
-  repo: angr/cle
 
 - name: claripy
-  repo: angr/claripy
 
 - name: ailment
-  repo: angr/ailment
 
 - name: angr
-  repo: angr/angr
 
 - name: angr-doc
-  repo: angr/angr-doc
   python: False
 
+- name: angr.github.io
+  python: False
+  website: True
+
 - name: angr-management
-  repo: angr/angr-management
 
 - name: angrop
-  repo: salls/angrop

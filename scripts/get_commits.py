@@ -9,7 +9,7 @@ GH_ACCESS_TOKEN = os.getenv("GH_ACCESS_TOKEN")
 
 
 def get_latest_commit(gh, repo):
-    gh_repo = gh.get_repo(repo.repo)
+    gh_repo = gh.get_repo(f"angr/{repo.name}")
     branch = gh_repo.get_branch(gh_repo.default_branch)
     return branch.commit.sha
 
