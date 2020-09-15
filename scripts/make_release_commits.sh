@@ -2,13 +2,13 @@
 set -ex
 
 python=python
-source $(dirname $0)/vars.sh
+source "$(dirname "$0")/vars.sh"
 
 git config --global user.name "angr release bot"
-git config --global user.email "angr@lists.cs.ucsb.edu"
+git config --global user.email "angr-dev@asu.edu"
 
-for i in $REPOS; do
-    pushd $CHECKOUT_DIR/$i
+for i in "$REPOS"; do
+    pushd "$CHECKOUT_DIR/$i"
 
     if [ -e setup.py ]; then
         # Replace version in setup.py
@@ -25,7 +25,7 @@ for i in $REPOS; do
             sed -i -e "s/'$j\(\(==[^']*\)\?\)',\$/'$j==$VERSION',/" setup.py
         done
         # continue
-    elif [ $i == "angr-doc" ]; then
+    elif [ "$i" == "angr-doc" ]; then
         sed -i -e "s/version = u['\"][^'\"]*['\"]/version = u'$VERSION'/g" api-doc/source/conf.py
         sed -i -e "s/release = u['\"][^'\"]*['\"]/release = u'$VERSION'/g" api-doc/source/conf.py
     else
@@ -34,9 +34,9 @@ for i in $REPOS; do
     fi
 
     # Commit and push to github
-    git checkout -q -b release/$VERSION
+    git checkout -q -b "release/$VERSION"
     git add --all
     git commit -m "Update version to $VERSION"
-    git tag -a v$VERSION -m "release version $VERSION"
+    git tag -a "v$VERSION" -m "release version $VERSION"
     popd
 done
