@@ -22,7 +22,7 @@ for f in $(ls "$sdist_path"); do
     tar -xf "$sdist_path/$f"
 done
 
-for package in "$packages"; do
+for package in $packages; do
     pushd "$package-$VERSION"
     python setup.py bdist_wheel
     mv dist/* "$wheels"
