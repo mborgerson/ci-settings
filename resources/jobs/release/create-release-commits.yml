@@ -11,6 +11,11 @@ jobs:
   steps:
   - template: setup-host.yml
 
+  - bash: scripts/setup_git.sh
+    displayName: Set up git
+    env:
+      sshKey: $(sshKey)
+
   - task: DownloadPipelineArtifact@2
     displayName: Download versions.yml
     inputs:

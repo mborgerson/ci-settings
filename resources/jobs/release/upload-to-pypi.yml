@@ -31,3 +31,6 @@ jobs:
   - script: twine upload --non-interactive upload/*
     condition: eq(${{ parameters.dry_run }}, false)
     displayName: Upload to pypi
+    env:
+      TWINE_USERNAME: __token__
+      TWINE_PASSEORD: $(pypiToken)

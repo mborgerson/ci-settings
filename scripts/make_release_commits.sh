@@ -4,9 +4,6 @@ set -ex
 python=python
 source "$(dirname "$0")/vars.sh"
 
-git config --global user.name "angr release bot"
-git config --global user.email "angr-dev@asu.edu"
-
 for i in $REPOS; do
     pushd "$CHECKOUT_DIR/$i"
 
