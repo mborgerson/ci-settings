@@ -13,4 +13,7 @@ cp -r "$CHECKOUT_DIR/angr-doc/api-doc/build/html" "$CHECKOUT_DIR/angr.github.io/
 
 pushd "$CHECKOUT_DIR/angr.github.io"
 git commit --author "angr release bot <angr-dev@asu.edu>" -m "update api-docs for version $VERSION" api-doc
+if [ "$DRY_RUN" == "False" ]; then
+    git push origin master
+fi
 popd
