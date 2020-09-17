@@ -9,8 +9,6 @@ python="$1"
 sdist_path="$(realpath "$2")"
 venv_path="$(realpath "$3")"
 
-source "$(dirname "$0")/vars.sh"
-
 packages=$($python scripts/get_repo_names.py --python-only)
 source "$venv_path/bin/activate" &> /dev/null || source "$venv_path/Scripts/activate"
 
@@ -23,7 +21,7 @@ for f in $(ls "$sdist_path"); do
 done
 
 for package in $packages; do
-    pushd "$package-$VERSION"
+    pushd "$package"-[0-9]
     python setup.py bdist_wheel
     mv dist/* "$wheels"
     popd
