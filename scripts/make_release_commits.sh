@@ -29,7 +29,7 @@ for i in $REPOS; do
     git commit -m "Update version to $VERSION"
     git tag -a "v$VERSION" -m "release version $VERSION"
 
-    if [ "$DRY_RUN" == "False" ]; then
+    if [ "$DRY_RUN" == "false" ]; then
         git push origin "release/$VERSION"
         git push origin "v$VERSION"
     fi
