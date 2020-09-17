@@ -17,7 +17,7 @@ for i in $REPOS; do
         VERSION=$(sed -n -e "s/.*version='\(.\+\)'.*/\1/p" setup.py)
     elif [ "$i" == "angr-doc" ]; then
         sed -i -e "s/\\.gitrolling/.$VERSION_ID/g" api-doc/source/conf.py
-        VERSION=$(sed -n -e "s/.*version = u'\(.\+\)'.*/\1/p" setup.py)
+        VERSION=$(sed -n -e "s/.*version = u'\(.\+\)'.*/\1/p" api-doc/source/conf.py)
     else
         popd
         continue
