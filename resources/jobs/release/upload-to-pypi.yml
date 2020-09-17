@@ -33,4 +33,4 @@ jobs:
     displayName: Upload to pypi
     env:
       TWINE_USERNAME: __token__
-      TWINE_PASSEORD: $(pypiToken)
+      TWINE_PASSWORD: $(pypiToken)
