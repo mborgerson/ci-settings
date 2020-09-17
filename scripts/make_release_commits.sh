@@ -26,7 +26,7 @@ for i in $REPOS; do
     # Commit and push to github
     git checkout -q -b "release/$VERSION"
     git add --all
-    git commit -m "Update version to $VERSION"
+    git commit -m "[ci skip] Update version to $VERSION"
     git tag -a "v$VERSION" -m "release version $VERSION"
 
     if [ "$DRY_RUN" == "false" ]; then
