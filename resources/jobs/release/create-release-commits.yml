@@ -10,11 +10,8 @@ jobs:
     vmImage: ubuntu-20.04
   steps:
   - template: setup-host.yml
-
-  - bash: scripts/setup_git.sh
-    displayName: Set up git
-    env:
-      sshKey: $(sshKey)
+    parameters:
+      git: true
 
   - task: DownloadPipelineArtifact@2
     displayName: Download versions.yml
@@ -23,7 +20,7 @@ jobs:
       targetPath: .
 
   - task: PythonScript@0
-    displayName: Checkout release commits
+    displayName: Checkout pre-release commits
     inputs:
       scriptSource: filePath
       scriptPath: scripts/checkout_all.py
@@ -33,10 +30,14 @@ jobs:
     env:
       DRY_RUN: ${{ lower(parameters.dry_run) }}
 
-  - bash: scripts/build_api_docs.sh
-    displayName: Build API docs
-    env:
-      DRY_RUN: ${{ lower(parameters.dry_run) }}
+  - bash: scripts/get_release_versions.sh
+    displayName: Get release commit hashes
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish release.yml
+    inputs:
+      artifactName: release.yml
+      targetPath: release.yml
 
   - bash: scripts/create_sdist.sh
     displayName: Create sdists
@@ -46,9 +47,3 @@ jobs:
     inputs:
       artifactName: sdist
       targetPath: sdist
-
-  - task: PublishPipelineArtifact@1
-    displayName: Publish API docs artifact
-    inputs:
-      artifactName: apidocs
-      targetPath: repos/angr.github.io/api-doc

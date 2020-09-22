@@ -11,10 +11,9 @@ def checkout_repo(dir, repo, commit):
     checkout_dir = os.path.join(dir, repo.name)
     clone_str = f"git clone git@github.com:angr/{repo.name}.git {checkout_dir}"
     subprocess.run(shlex.split(clone_str), check=True).check_returncode()
-    if not repo.website:
-        subprocess.run(
-            shlex.split(f"git -C {checkout_dir} checkout -q {commit}"), check=True
-        ).check_returncode()
+    subprocess.run(
+        shlex.split(f"git -C {checkout_dir} checkout -q {commit}"), check=True
+    ).check_returncode()
 
 
 def parse_commits(path):

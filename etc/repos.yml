@@ -17,10 +17,6 @@ repos:
 - name: angr-doc
   python: False
 
-- name: angr.github.io
-  python: False
-  website: True
-
 - name: angr-management
 
 - name: angrop

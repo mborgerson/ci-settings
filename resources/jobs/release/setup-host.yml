@@ -2,6 +2,9 @@ parameters:
 - name: python
   type: string
   default: python
+- name: git
+  type: boolean
+  default: false
 
 steps:
 - task: BatchScript@1
@@ -23,3 +26,9 @@ steps:
 
 - script: $(python) -m pip install -r etc/release_requirements.txt
   displayName: Install requirements
+
+- ${{ if parameters.git }}:
+  - bash: scripts/setup_git.sh
+    displayName: Set up git
+    env:
+      sshKey: $(sshKey)
