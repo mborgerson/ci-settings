@@ -4,6 +4,7 @@ python=python
 source $(dirname $0)/vars.sh
 
 source angr_venv/bin/activate
+export PATH=$(pwd)/angr_venv/lib/*/site-packages:"$PATH"
 
 angr_doc_rev="$(cat release.yml | grep angr-doc | cut -d ' ' -f2)"
 
