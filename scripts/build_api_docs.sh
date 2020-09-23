@@ -12,7 +12,10 @@ pushd $CHECKOUT_DIR
 
 git clone git@github.com:angr/angr-doc.git angr-doc
 git clone git@github.com:angr/angr.github.io.git angr.github.io
-git -C angr-doc reset --hard $angr_doc_rev
+if [ "$DRY_RUN" == "false" ]; then
+    git -C angr-doc fetch $angr_doc_rev
+    git -C angr-doc reset --hard $angr_doc_rev
+fi
 angr_doc_version=$(sed -n -e "s/.*version = u'\(.\+\)'.*/\1/p" angr-doc/api-doc/source/conf.py)
 
 make -C angr-doc/api-doc html
