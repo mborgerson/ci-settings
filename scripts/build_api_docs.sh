@@ -4,6 +4,7 @@ python=python
 source $(dirname $0)/vars.sh
 
 source angr_venv/bin/activate
+pip install -r etc/doc_requirements.txt
 
 # Congifure path for sphinx
 for module in $($python scripts/get_repo_names.py --python-only); do
