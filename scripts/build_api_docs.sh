@@ -6,13 +6,6 @@ source $(dirname $0)/vars.sh
 source angr_venv/bin/activate
 pip install -r etc/doc_requirements.txt
 
-# Congifure path for sphinx
-for module in $($python scripts/get_repo_names.py --python-only); do
-    module_path=$($python -c "import os; import $module; print(os.path.join(os.path.dirname($module.__file__), '..'))")
-    export PATH="$module_path:$PATH"
-done
-
-
 mkdir -p $CHECKOUT_DIR
 pushd $CHECKOUT_DIR
 
@@ -27,6 +20,13 @@ if [ "$DRY_RUN" == "false" ]; then
     git -C angr-doc reset --hard $angr_doc_rev
 fi
 angr_doc_version=$(sed -n -e "s/.*version = u'\(.\+\)'.*/\1/p" angr-doc/api-doc/source/conf.py)
+
+# Congifure path for sphinx
+modules="$(cd angr-doc/api-doc/source; ls *.rst | sed -r "s/\.rst//g; s/(\s|^)index(\s|$)//g")"
+for module in $modules; do
+    module_path=$($python -c "import os; import $module; print(os.path.realpath(os.path.join(os.path.dirname($module.__file__), '..')))")
+    export PATH="$module_path:$PATH"
+done
 
 # Build docs and copy to website
 make -C angr-doc/api-doc html
