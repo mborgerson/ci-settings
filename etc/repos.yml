@@ -1,4 +1,7 @@
 repos:
+- name: binaries
+  python: False
+
 - name: archinfo
 
 - name: vex
