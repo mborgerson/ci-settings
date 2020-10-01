@@ -18,7 +18,7 @@ for i in $REPOS; do
     elif [ "$i" == "angr-doc" ]; then
         sed -i -e "s/\\.gitrolling/.$VERSION_ID/g" api-doc/source/conf.py
         VERSION=$(sed -n -e "s/.*version = u'\(.\+\)'.*/\1/p" api-doc/source/conf.py)
-    elif [ "$i" == "binaries" ]; then
+    elif [[ "$i" == "binaries" || "$i" == "vex" ]]; then
         sed -i -e "s/\\.gitrolling/.$VERSION_ID/g" VERSION
         VERSION=$(cat VERSION)
     else
