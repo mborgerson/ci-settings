@@ -30,7 +30,6 @@ for i in $REPOS; do
     git tag -a "v$VERSION" -m "release version $VERSION"
 
     if [ "$DRY_RUN" == "false" ]; then
-        git push origin "release/$VERSION"
         git push origin "v$VERSION"
     fi
 
