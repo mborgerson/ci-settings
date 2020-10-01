@@ -34,6 +34,8 @@ stages:
   displayName: Publish API Documentation
   jobs:
   - template: jobs/release/publish-docs.yml
+    parameters:
+      dry_run: ${{ parameters.dry_run }}
   dependsOn:
   - verify_wheels
 
