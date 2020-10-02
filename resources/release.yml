@@ -1,3 +1,4 @@
+name: $(BuildID)
 trigger: none
 parameters:
 - name: dry_run
